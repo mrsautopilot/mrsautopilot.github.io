@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Your Studio, on Autopilot – 3 Claude prompts for interior designers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+--cream:#F4EFE7; --paper:#FBF8F3; --ink:#2B2A27; --soft:#6E6A62;
+--sage:#5F6B57; --clay:#B8735A; --line:#E2DACD; --box:#2F2E2B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"DM Sans",system-ui,sans-serif;color:var(--ink);background:var(--paper);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:Lora,Georgia,serif;font-weight:500;letter-spacing:-.01em;line-height:1.15}
+.kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);font-weight:700;margin-bottom:14px}
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+h2{font-size:clamp(28px,6vw,38px);margin-bottom:18px}
+p{margin-bottom:14px}
+.lead{font-size:19px;color:var(--soft)}
+.hero{background:var(--cream);padding:72px 0 64px;border-bottom:none}
+.brand{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage);font-weight:700}
+.hero h1{font-size:clamp(40px,10vw,64px);margin:22px 0 20px}
+.hero h1 em{color:var(--clay)}
+.swatches{display:flex;gap:10px;margin:26px 0 30px}
+.swatches span{width:34px;height:34px;border-radius:50%}
+.jump{display:flex;flex-wrap:wrap;gap:10px}
+.jump a{font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:9px 16px;border-radius:40px}
+.jump a:hover{background:var(--ink);color:var(--cream)}
+.note{background:var(--cream);border-left:3px solid var(--clay);padding:20px 22px;margin:24px 0;border-radius:6px}
+.note h3{font-size:20px;margin-bottom:8px}
+.note p:last-child{margin-bottom:0}
+.pcard{background:var(--box);color:#EDE8DF;border-radius:12px;margin-top:22px;overflow:hidden}
+.pbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px 14px 20px;background:#262523;position:sticky;top:0}
+.pbar span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#C9A898;font-weight:700}
+.copy{font-family:inherit;font-size:14px;font-weight:700;border:none;background:var(--clay);color:#fff;padding:10px 18px;border-radius:40px;cursor:pointer;white-space:nowrap;transition:background .2s}
+.copy:hover{background:#a5634b}
+.copy.done{background:var(--sage)}
+.ptext{white-space:pre-wrap;font-family:"DM Sans",sans-serif;font-size:14.5px;line-height:1.6;padding:20px;max-height:420px;overflow:auto}
+.pcard .expand{display:block;width:100%;background:#262523;color:#C9A898;border:none;font-family:inherit;font-size:13px;font-weight:600;padding:12px;cursor:pointer;letter-spacing:.06em}
+.pcard.open .ptext{max-height:none}
+.hint{font-size:14px;color:var(--soft);margin-top:10px}
+.check{list-style:none;margin-top:10px}
+.check li{padding:10px 0 10px 34px;position:relative;border-bottom:1px dashed var(--line)}
+.check li:before{content:"";position:absolute;left:2px;top:15px;width:16px;height:16px;border:2px solid var(--clay);border-radius:4px}
+.next{background:var(--cream)}
+.pain{list-style:none;margin:18px 0 22px}
+.pain li{padding:12px 0 12px 30px;position:relative;border-bottom:1px solid var(--line)}
+.pain li:before{content:"→";position:absolute;left:0;color:var(--clay);font-weight:700}
+.offer{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 24px;margin-top:26px}
+.offer .tag{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--sage);background:#E6E9E1;padding:5px 10px;border-radius:20px;margin-bottom:12px}
+.offer h3{font-size:26px;margin-bottom:10px}
+.offer ul{margin:14px 0 18px 20px}
+.offer li{margin-bottom:6px}
+.club{background:var(--sage);color:#F4EFE7;border:none}
+.club h3{color:#fff}
+.club .tag{background:rgba(255,255,255,.15);color:#fff}
+.btn{display:inline-block;background:var(--clay);color:#fff;padding:14px 26px;border-radius:40px;font-weight:700;text-decoration:none;font-size:16px}
+.btn:hover{background:#a5634b}
+footer{padding:36px 0 50px;text-align:center;font-size:14px;color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:40px;font-size:14px;font-weight:600;transition:transform .25s;z-index:9}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.wl{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.wl input{flex:1 1 220px;font:inherit;padding:13px 16px;border-radius:40px;border:none;font-size:16px}
+.wl .btn{border:none;cursor:pointer;font-family:inherit}
+.joined{display:none;margin-top:14px;font-weight:600}
+body.is-joined .joined{display:block}
+body.is-joined .wl{display:none}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="wrap">
+<div class="brand">Mrs. Autopilot · Free guide</div>
+<h1>Your studio,<br><em>on autopilot.</em></h1>
+<p class="lead">Three Claude prompts every interior designer needs: turn messy client notes into a sharp brief, a brief into a moodboard and spec, and your notes into contractor requests that come back right the first time.</p>
+<div class="swatches"><span style="background:#B8735A"></span><span style="background:#5F6B57"></span><span style="background:#D9CBB5"></span><span style="background:#2B2A27"></span></div>
+<div class="jump">
+<a href="#prompt-1">1 · The brief</a>
+<a href="#prompt-2">2 · Moodboard &amp; spec</a>
+<a href="#prompt-3">3 · Contractor &amp; client</a>
+</div>
+</div>
+</header>
+<section>
+<div class="wrap">
+<div class="kicker">Start here</div>
+<h2>You became a designer to design. Not to chase emails.</h2>
+<p class="lead">Briefs scattered across WhatsApp, voice notes and napkin sketches. Moodboards rebuilt from scratch every time. Contractors asking the same questions three times because the request was missing one detail. That's the work that eats your week.</p>
+<p>These three prompts take that work off your plate. Run them in order: each one feeds the next. Tap <b>Copy prompt</b>, paste it into Claude, and fill in the part in [brackets].</p>
+<div class="note">
+<h3>Why the third prompt is different</h3>
+<p>Most AI guides are written by people who have never stood on a job site. The team behind Mrs. Autopilot works on the <b>other side</b> of your projects: in the workshop that receives designers' drawings, measures on site and builds the glass and custom pieces. We see every day which requests get priced in an hour and which ones bounce back and forth for a week.</p>
+<p>Prompt Three is built from that side of the table.</p>
+</div>
+</div>
+</section>
+<section id="prompt-1">
+<div class="wrap">
+<div class="kicker">Prompt one · The brief</div>
+<h2>Turn a messy meeting into a sharp brief</h2>
+<p>Paste your meeting notes, a voice-note transcript or a rough list. Leave it messy. Claude will ask for what's missing, one question at a time.</p>
+<div class="pcard">
+<div class="pbar"><span>The brief interview</span><button class="copy">Copy prompt</button></div>
+<div class="ptext">You are my senior project manager at an interior design studio. You have run hundreds of residential and commercial projects and you know that most budget fights, delays and redesigns start with a vague brief. Your job is to turn my rough notes into a brief I could hand to anyone on my team.
+
+== HOW WE WORK ==
+1. Read my notes below. Do NOT write the brief yet.
+2. First, list what is missing or unclear, then ask me ONE question at a time, most important first. Wait for my answer before the next question.
+3. Always check: budget (and whether it includes furniture, fixtures, labour, VAT), timeline and hard deadlines, who makes the final decision, how they live in or use the space, must-keep items, absolute no-gos, and anything that needs a specialist (glass, joinery, metal, lighting, electrics, plumbing).
+4. When an answer is vague ("modern", "cosy", "not too expensive"), push back and ask for a concrete example, number or reference image.
+5. Never invent client details. If I don't know something, mark it as OPEN.
+
+== MY NOTES ==
+[Paste meeting notes / transcript here]
+
+== FINAL OUTPUT: PROJECT BRIEF ==
+When I say "write it", produce: project summary (3 lines); client and decision-maker; spaces in scope; budget with what's included; timeline and milestones; how the space is used; style direction in plain words + 3 reference descriptions; must-keeps and no-gos; specialist trades needed; OPEN decisions with who owns each and by when; risks I should raise with the client now.
+
+Tone: clear and calm, no jargon. Start by listing what's missing, then ask your first question.</div>
+</div>
+</div>
+</section>
+<section id="prompt-2">
+<div class="wrap">
+<div class="kicker">Prompt two · Moodboard &amp; spec</div>
+<h2>From brief to moodboard and a first spec list</h2>
+<p>Paste the brief from Prompt One. If you already have reference photos, attach them too.</p>
+<div class="pcard">
+<div class="pbar"><span>Moodboard &amp; spec builder</span><button class="copy">Copy prompt</button></div>
+<div class="ptext">You are my design assistant. You turn an approved brief into a clear visual direction and a practical first specification. You care about what looks good AND what can actually be built and bought within budget.
+
+== MY BRIEF ==
+[Paste the full brief from Prompt One here]
+
+== BUILD IN THIS ORDER ==
+1. Two directions. Give two distinct concept directions that both fit the brief. For each: a name, a one-sentence mood, and why it suits THIS client.
+2. Palette. 5–6 colours per direction with a role for each (base, secondary, accent, metal, wood) and an approximate HEX code.
+3. Materials and finishes. Floors, walls, joinery, worktops, glass, metal finishes, textiles. Say where each goes and flag anything fragile, high-maintenance or with a long lead time.
+4. Moodboard kit. 10 Pinterest search terms and 6 image-generation prompts per direction, written so the images look like real, buildable rooms (correct proportions, real hardware, no floating glass or impossible joints).
+5. First spec list. A table: item, room, material/finish, approx. size, supplier type, budget band (low/mid/high), lead-time risk.
+6. Budget check. Compare the spec against the brief's budget and say plainly where it is likely to overrun and what to swap.
+
+Never invent product names or prices as facts. Use ranges and say they need checking. If the brief is missing anything you need, ask me one question first.</div>
+</div>
+</div>
+</section>
+<section id="prompt-3">
+<div class="wrap">
+<div class="kicker">Prompt three · Contractor &amp; client</div>
+<h2>Requests that come back right the first time</h2>
+<p>Use it for any made-to-measure trade: glass, joinery, metal, stone. Paste your notes, a description of your sketch and the relevant part of the spec.</p>
+<div class="pcard">
+<div class="pbar"><span>Contractor request + client update</span><button class="copy">Copy prompt</button></div>
+<div class="ptext">You are an experienced project coordinator who has worked inside fabrication workshops. You know a contractor can only price and build fast when the request answers their questions before they ask them. Turn my notes into (A) a request for quote and (B) a short client update.
+
+== MY NOTES ==
+[Trade, item, room, sketch description, sizes, finish choices, deadline, site status]
+
+== A. REQUEST FOR QUOTE ==
+Check every point below. Where my notes have a gap, ask me ONE question at a time before writing.
+- Sizes: final or approximate? Who does the final site measure, and when is the site ready for it (walls, tiles, floor finished)?
+- Openings: which side are the hinges/handles, which way does it open (in/out, left/right)? Describe it AND ask me for a sketch.
+- Material: type, thickness, colour/tint, surface (clear, low-iron, satin, fluted, mirror), edge finish.
+- Hardware: system/brand if chosen, finish (e.g. matte black, brushed steel), and what it must match.
+- Fixing: what the wall/floor/ceiling is made of, is there backing or reinforcement, are there floor falls or slopes?
+- Site: floor level, lift or stairs, largest piece that fits through the door, parking and access.
+- Who approves the shop drawing, and how (written approval by email).
+- Deadline, budget range, and what happens if the site is not ready.
+Write the request as a clean email with a numbered spec list and a short list of open questions for the contractor.
+
+== B. CLIENT UPDATE ==
+Write 5–7 calm sentences in my voice: what's done this week, what's next, what the client needs to decide (with a date), and any risk to the timeline, said honestly. No jargon, no over-promising.</div>
+</div>
+</div>
+</section>
+<section>
+<div class="wrap">
+<div class="kicker">From the workshop side</div>
+<h2>What your fabricator wishes you'd send</h2>
+<p class="lead">Most expensive mistakes in made-to-measure work aren't design mistakes. They're a missing line in the request: a size taken before the tiles went on, a door that opens the wrong way, a rectangle ordered for an opening that isn't square.</p>
+<ul class="check">
+<li>Final sizes taken on the finished site, not from the plan</li>
+<li>Who measures, and who is responsible if it's wrong</li>
+<li>Opening direction drawn, not just described</li>
+<li>Out-of-square corners, slopes and shapes marked</li>
+<li>Material type, thickness, surface and edge</li>
+<li>Hardware finish matched to taps, handles and lights</li>
+<li>What's inside the wall where it's fixed</li>
+<li>Access: stairs, lift, door width, parking</li>
+<li>Shop drawing approved in writing before ordering</li>
+<li>Every change confirmed by email, not by phone</li>
+</ul>
+</div>
+</section>
+<section class="next">
+<div class="wrap">
+<div class="kicker">Here's the catch</div>
+<h2>Three prompts cover three tasks. Your week has forty.</h2>
+<p class="lead">You'll use these on your next project and save yourself an afternoon. Then you'll hit the next thing:</p>
+<ul class="pain">
+<li>Site-visit notes that need to become a snag list</li>
+<li>The change the client "just thought of" that needs a new quote</li>
+<li>Chasing a supplier who hasn't confirmed a delivery date</li>
+<li>The overdue invoice you've been too polite to follow up</li>
+<li>The finished project that deserves a proper Instagram post</li>
+</ul>
+<p>Each one needs its own prompt. And a good prompt takes an hour of trial and error to get right. Most designers give up after the second one and go back to doing it by hand.</p>
+<p><b>So we'll write them for you.</b></p>
+<div class="offer">
+<span class="tag">Free · starts tomorrow</span>
+<h3>The Morning Prompt</h3>
+<p style="margin-bottom:0">One ready-to-paste prompt for a real studio task, in your inbox every weekday morning. Tested on real projects, written from both sides of the table. You're already on the list: watch for it tomorrow.</p>
+</div>
+<div class="offer club" id="room">
+<span class="tag">Opening soon</span>
+<h3>The Studio Room</h3>
+<p>Every prompt in one place, sorted by project stage, so you never search your inbox for the right one.</p>
+<ul>
+<li>The full prompt library, from first call to final handover</li>
+<li>A ready-made Claude setup that remembers each client and project, so you stop re-pasting context</li>
+<li>New prompts every week as the tools change</li>
+<li>A founding-member price for the first group in</li>
+</ul>
+<form class="wl" action="https://app.kit.com/forms/10215318/subscriptions" method="post">
+<input type="email" name="email_address" placeholder="Your email" required aria-label="Your email">
+<button class="btn" type="submit">Join the waitlist &rarr;</button>
+</form>
+<p class="joined" id="joined-msg">You're on the list. We'll email you first when the doors open. &#9749;</p>
+</div>
+<p class="hint" style="margin-top:18px">Or send <b>ROOM</b> to <b>@mrs.autopilot</b> on Instagram and we'll send you the link.</p>
+</div>
+</section>
+<footer>Mrs. Autopilot · AI for interior designers<br>@mrs.autopilot · mrsautopilot.com</footer>
+<div class="toast" id="toast">Copied. Now paste it into Claude.</div>
+<script>
+if(location.hash==="#joined"){document.body.classList.add("is-joined");setTimeout(()=>document.getElementById("room").scrollIntoView(),300);}
+const toast=document.getElementById('toast');
+function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(window._t);window._t=setTimeout(()=>toast.classList.remove('show'),2200);}
+function selectText(el){const r=document.createRange();r.selectNodeContents(el);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+document.querySelectorAll('.pcard').forEach(card=>{
+const btn=card.querySelector('.copy'), txt=card.querySelector('.ptext');
+btn.addEventListener('click',async()=>{
+const text=txt.innerText.trim();
+try{
+await navigator.clipboard.writeText(text);
+btn.textContent='Copied ✓';btn.classList.add('done');showToast('Copied. Now paste it into Claude.');
+setTimeout(()=>{btn.textContent='Copy prompt';btn.classList.remove('done');},2500);
+}catch(e){
+selectText(txt);showToast('Text selected – press Copy');
+}
+});
+const ex=document.createElement('button');ex.className='expand';ex.textContent='Show full prompt ↓';
+ex.addEventListener('click',()=>{card.classList.toggle('open');ex.textContent=card.classList.contains('open')?'Show less ↑':'Show full prompt ↓';});
+card.appendChild(ex);
+});
+</script>
+</body>
+</html>
